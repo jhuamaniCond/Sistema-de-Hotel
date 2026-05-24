@@ -27,7 +27,7 @@ El sistema permite gestionar las operaciones principales de un hotel:
 
 ### Instalación
 ```bash
-cd hotel-management
+cd Sistema-de-Hotel
 npm install
 ```
 
