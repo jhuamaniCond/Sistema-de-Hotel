@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistema de Gestión de Hotel Grand Azure — Grupo 4 — Lab 5 Pruebas de Software">
+  <title>Hotel Grand Azure — Sistema de Gestión</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+</head>
+<body>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="layout">
+
+    <!-- ================================================================ -->
+    <!-- SIDEBAR                                                          -->
+    <!-- ================================================================ -->
+    <aside class="sidebar" id="sidebar">
+
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-name">Grand Azure</div>
+          <div class="sidebar-brand-sub">Grupo 4 · Lab 5</div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <div class="nav-label">Módulos</div>
+
+        <div class="nav-item active" id="nav-huespedes" data-tab="huespedes" onclick="switchTab('huespedes')">
+          <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <span class="nav-text">Huéspedes</span>
+          <span class="nav-badge" id="badge-huespedes">0</span>
+        </div>
+
+        <div class="nav-item" id="nav-habitaciones" data-tab="habitaciones" onclick="switchTab('habitaciones')">
+          <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <span class="nav-text">Habitaciones</span>
+          <span class="nav-badge" id="badge-habitaciones">0</span>
+        </div>
+
+        <div class="nav-item" id="nav-reservaciones" data-tab="reservaciones" onclick="switchTab('reservaciones')">
+          <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <span class="nav-text">Reservaciones</span>
+          <span class="nav-badge" id="badge-reservaciones">0</span>
+        </div>
+
+        <div class="nav-item" id="nav-facturacion" data-tab="facturacion" onclick="switchTab('facturacion')">
+          <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <span class="nav-text">Facturación</span>
+          <span class="nav-badge" id="badge-facturas">0</span>
+        </div>
+      </nav>
+
+      <!-- Footer -->
+      <div class="sidebar-footer">
+        <div class="status-pill">
+          <div class="status-dot"></div>
+          <span class="status-text">Sistema en línea</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================================================================ -->
+    <!-- MAIN                                                             -->
+    <!-- ================================================================ -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div>
+            <div class="topbar-title" id="topbar-title">Huéspedes</div>
+            <div class="topbar-subtitle">Gestión y registro de huéspedes</div>
+          </div>
+        </div>
+        <div class="topbar-right" id="topbar-actions">
+          <button class="topbar-btn primary" id="topbar-add-btn" onclick="openAddModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span id="topbar-add-label">Registrar Huésped</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content">
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Huéspedes</div>
+              <div class="stat-value" id="stat-guests">0</div>
+              <div class="stat-trend">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+                </svg>
+                Registrados
+              </div>
+            </div>
+            <div class="stat-icon-wrap blue">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Habitaciones</div>
+              <div class="stat-value" id="stat-rooms">0</div>
+              <div class="stat-trend" id="stat-rooms-sub">Total registradas</div>
+            </div>
+            <div class="stat-icon-wrap green">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Reservas Activas</div>
+              <div class="stat-value" id="stat-reservations">0</div>
+              <div class="stat-trend">Confirmadas</div>
+            </div>
+            <div class="stat-icon-wrap amber">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Facturas Pendientes</div>
+              <div class="stat-value" id="stat-billings">0</div>
+              <div class="stat-trend">Por cobrar</div>
+            </div>
+            <div class="stat-icon-wrap violet">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PANEL: HUÉSPEDES -->
+        <!-- ============================================================ -->
+        <div class="tab-panel active" id="panel-huespedes">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="title-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              Lista de Huéspedes
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrapper">
+              <table class="data-table" id="table-guests">
+                <thead>
+                  <tr>
+                    <th>Nombre</th><th>DNI</th><th>Edad</th>
+                    <th>Teléfono</th><th>Email</th><th>Registro</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="guests-tbody">
+                  <tr><td colspan="7"><div class="empty-state">
+                    <div class="empty-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                      </svg>
+                    </div>
+                    <h3>No hay huéspedes</h3>
+                    <p>Registra tu primer huésped usando el botón de arriba</p>
+                  </div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PANEL: HABITACIONES -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="panel-habitaciones">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="title-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+              Lista de Habitaciones
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrapper">
+              <table class="data-table" id="table-rooms">
+                <thead>
+                  <tr>
+                    <th>N°</th><th>Tipo</th><th>Precio/Noche</th>
+                    <th>Piso</th><th>Estado</th><th>Registro</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="rooms-tbody">
+                  <tr><td colspan="7"><div class="empty-state">
+                    <div class="empty-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+                      </svg>
+                    </div>
+                    <h3>No hay habitaciones</h3>
+                    <p>Agrega habitaciones usando el botón de arriba</p>
+                  </div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PANEL: RESERVACIONES -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="panel-reservaciones">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="title-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              Lista de Reservaciones
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrapper">
+              <table class="data-table" id="table-reservations">
+                <thead>
+                  <tr>
+                    <th>Huésped</th><th>Habitación</th><th>Check-In</th>
+                    <th>Check-Out</th><th>Noches</th><th>Total</th><th>Estado</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="reservations-tbody">
+                  <tr><td colspan="8"><div class="empty-state">
+                    <div class="empty-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                      </svg>
+                    </div>
+                    <h3>No hay reservaciones</h3>
+                    <p>Crea una nueva reservación</p>
+                  </div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PANEL: FACTURACIÓN -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="panel-facturacion">
+          <div class="section-header">
+            <div class="section-title">
+              <div class="title-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              Lista de Facturas
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-wrapper">
+              <table class="data-table" id="table-billings">
+                <thead>
+                  <tr>
+                    <th>Huésped</th><th>Habitación</th><th>Estadía</th>
+                    <th>Base Imponible</th><th>IGV 18%</th><th>Total</th><th>Estado</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="billings-tbody">
+                  <tr><td colspan="8"><div class="empty-state">
+                    <div class="empty-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                      </svg>
+                    </div>
+                    <h3>No hay facturas</h3>
+                    <p>Genera una factura desde una reservación</p>
+                  </div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /page-content -->
+    </div><!-- /main -->
+  </div><!-- /layout -->
+
+  <!-- ================================================================ -->
+  <!-- MODALES                                                          -->
+  <!-- ================================================================ -->
+
+  <!-- Modal: Nuevo Huésped -->
+  <div class="modal-overlay" id="modal-guest">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          Registrar Huésped
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-guest')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form onsubmit="submitGuest(event)" id="form-guest">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Nombre completo <span class="required">*</span></label>
+              <input type="text" class="form-control" name="nombre" id="guest-nombre"
+                     placeholder="Ej: Juan Pérez" required minlength="2" maxlength="100">
+              <span class="form-hint">2–100 caracteres, solo letras y espacios</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">DNI <span class="required">*</span></label>
+              <input type="text" class="form-control" name="dni" id="guest-dni"
+                     placeholder="Ej: 12345678" required pattern="\d{8}" maxlength="8">
+              <span class="form-hint">Exactamente 8 dígitos</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Edad <span class="required">*</span></label>
+              <input type="number" class="form-control" name="edad" id="guest-edad"
+                     placeholder="Ej: 25" required min="18" max="120" step="1">
+              <span class="form-hint">Entre 18 y 120 años</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono <span class="required">*</span></label>
+              <input type="text" class="form-control" name="telefono" id="guest-telefono"
+                     placeholder="Ej: 987654321" required pattern="9\d{8}" maxlength="9">
+              <span class="form-hint">9 dígitos, empieza con 9</span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Correo electrónico <span class="required">*</span></label>
+              <input type="email" class="form-control" name="email" id="guest-email"
+                     placeholder="Ej: juan@correo.com" required maxlength="254">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-guest')">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-guest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Registrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Nueva Habitación -->
+  <div class="modal-overlay" id="modal-room">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          Agregar Habitación
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-room')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form onsubmit="submitRoom(event)" id="form-room">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Número <span class="required">*</span></label>
+              <input type="number" class="form-control" name="numero" id="room-numero"
+                     placeholder="Ej: 101" required min="100" max="999" step="1">
+              <span class="form-hint">Entre 100 y 999</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tipo <span class="required">*</span></label>
+              <select class="form-control" name="tipo" id="room-tipo" required>
+                <option value="">Seleccionar tipo...</option>
+                <option value="individual">Individual (máx. 1 huésped)</option>
+                <option value="doble">Doble (máx. 2 huéspedes)</option>
+                <option value="suite">Suite (máx. 4 huéspedes)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Precio / Noche (S/) <span class="required">*</span></label>
+              <input type="number" class="form-control" name="precio" id="room-precio"
+                     placeholder="Ej: 150.00" required min="50" max="5000" step="0.01">
+              <span class="form-hint">Entre S/ 50.00 y S/ 5,000.00</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Piso <span class="required">*</span></label>
+              <input type="number" class="form-control" name="piso" id="room-piso"
+                     placeholder="Ej: 1" required min="1" max="20" step="1">
+              <span class="form-hint">Entre 1 y 20</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-room')">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-room">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Agregar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Nueva Reservación -->
+  <div class="modal-overlay" id="modal-reservation">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          Nueva Reservación
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-reservation')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form onsubmit="submitReservation(event)" id="form-reservation">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Huésped <span class="required">*</span></label>
+              <select class="form-control" name="huespedId" id="res-huesped" required>
+                <option value="">Seleccionar huésped...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Habitación disponible <span class="required">*</span></label>
+              <select class="form-control" name="habitacionId" id="res-habitacion" required>
+                <option value="">Seleccionar habitación...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha Check-In <span class="required">*</span></label>
+              <input type="date" class="form-control" name="fechaCheckIn" id="res-checkin" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha Check-Out <span class="required">*</span></label>
+              <input type="date" class="form-control" name="fechaCheckOut" id="res-checkout" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">N° de Huéspedes <span class="required">*</span></label>
+              <input type="number" class="form-control" name="numHuespedes" id="res-huespedes"
+                     placeholder="Ej: 1" required min="1" max="4" step="1">
+              <span class="form-hint">1–4 según tipo de habitación</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-reservation')">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-reservation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Confirmar Reserva
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Nueva Factura -->
+  <div class="modal-overlay" id="modal-billing">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          Generar Factura
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-billing')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <form onsubmit="submitBilling(event)" id="form-billing">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Reservación <span class="required">*</span></label>
+              <select class="form-control" name="reservacionId" id="bill-reservacion" required>
+                <option value="">Seleccionar reservación...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Método de pago <span class="required">*</span></label>
+              <select class="form-control" name="metodoPago" id="bill-metodo" required>
+                <option value="">Seleccionar...</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descuento adicional (%)</label>
+              <input type="number" class="form-control" name="descuento" id="bill-descuento"
+                     placeholder="0" min="0" max="50" step="1" value="0">
+              <span class="form-hint">Entre 0% y 50%</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-billing')">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-billing">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Generar Factura
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
